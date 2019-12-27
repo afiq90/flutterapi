@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api/api.dart';
-import 'model/user.dart';
+import 'model/todo.dart';
+import 'widget/todo_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,26 +38,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   NetworkApi api = NetworkApi();
-  Future<User> firstUserFromAPI;
+  Future<Todo> firstTodoFromAPI;
 
   void initState() {
     super.initState();
-    firstUserFromAPI = api.fetchUser();
+    firstTodoFromAPI = api.fetchTodo();
+    // api.todoPostRequest();
+    
   }
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -68,29 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           title: Text('Fetch Data Example'),
         ),
-        body: Center(
-          child: FutureBuilder<User>(
-            future: firstUserFromAPI,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment:  MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('userId : ${snapshot.data.userId}'),
-                    Text('id : ${snapshot.data.id}'),
-                    Text('title : ${snapshot.data.title}'),
-                    Text('completed : ${snapshot.data.completed}'),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
+        body: TodoForms(),
+        
       ),
     );
   }
