@@ -3,8 +3,6 @@ import 'api/api.dart';
 import 'models/todo.dart';
 import 'widgets/todo_screen.dart';
 import 'widgets/main_screen.dart';
-import 'widgets/main_screen2.dart';
-import 'widgets/main_screen3.dart';
 
 import 'package:provider/provider.dart';
 import 'providers/todos.dart';
