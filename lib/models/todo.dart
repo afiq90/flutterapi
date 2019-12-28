@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 class Todo {
   int userId;
-  int id;
+  String id;
   String title;
   bool completed;
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../api/api.dart';
-import '../model/todo.dart';
+import '../models/todo.dart';
+
 
 class TodoForms extends StatelessWidget {
   TextEditingController _titleController = TextEditingController();
@@ -44,7 +45,7 @@ class TodoForms extends StatelessWidget {
               onPressed: () {
                 Todo newTodo = Todo(
                     title: _titleController.text,
-                    id: 1,
+                    // id: 1,
                     userId: 1001,
                     completed: true);
                 api.postToFirebase(newTodo);
