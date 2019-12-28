@@ -4,6 +4,8 @@ import 'models/todo.dart';
 import 'widgets/todo_screen.dart';
 import 'widgets/main_screen.dart';
 import 'widgets/main_screen2.dart';
+import 'widgets/main_screen3.dart';
+
 import 'package:provider/provider.dart';
 import 'providers/todos.dart';
 
@@ -54,18 +56,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fetch Data Example',
+      title: 'Todo List',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Fetch Data Example'),
+          title: Text('Todo List'),
         ),
         // body: TodoForms(),
-        // body: MainScreen(),
-        body: MainScreen2(),
-
+        body: MainScreen(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {print('button pressed');},
+        ),
       ),
     );
   }

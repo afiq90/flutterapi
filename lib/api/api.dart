@@ -25,40 +25,25 @@ class NetworkApi {
   //   return firstTodo;
   // }
 
-  Future<List<Todo>> fetchAllTodo() async {
+  Future<Map<String, dynamic>> fetchAllTodo() async {
     Todos newTodo = Todos();
-    List<Todo> todo = [];
+    // List<Todo> todo = [];
+    var extractedData;
 
     try {
       final response =
           await http.get('https://flutterapi-5afde.firebaseio.com/todos.json');
       //transform data
-      final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+       extractedData = jsonDecode(response.body) as Map<String, dynamic>;
       
-      extractedData.forEach((todoID, todoData) {
-        // newTodo.addTodo(Todo(
-        //     id: todoID,
-        //     userId: todoData['userId'],
-        //     title: todoData['title'],
-        //     completed: todoData['completed']));
-        
-        todo.add(Todo(
-            id: todoID,
-            userId: todoData['userId'],
-            title: todoData['title'],
-            completed: todoData['completed']));
-      });
-
-      // firstUser = User(userId: decodedData['userId'], id: decodedData['id'], title: decodedData['title'], completed: decodedData['completed']);
-      // print(jsonDecode(response.body));
-      // print('newTodo = ${newTodo.items[0].title}');
-      // todo = newTodo.items;
     } catch (error) {
       print('fetch error \($error)');
     }
-    print('todo value : $todo');
-    return todo;
+    
+    return extractedData;
+
   }
+  
 
   Future<void> fetchTodoWithID() async {
     Todo firstTodo;

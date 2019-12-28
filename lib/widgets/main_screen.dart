@@ -9,49 +9,30 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-//Get the API data  from API services.
+//Get the API data properly from todos provider notifier
 class _MainScreenState extends State<MainScreen> {
-  NetworkApi api = NetworkApi();
-  Future<List<Todo>> todoLists;
   bool _isInit = true;
+  Todos todosData = Todos();
+  NetworkApi api = NetworkApi();
 
   void initState() {
     super.initState();
-    // Future.delayed(Duration.zero).then(
-    //   Provider.of<Todos>(context).defaultTodo()
-    // );
-
-    // firstTodoFromAPI = api.fetchTodo();
-    // firstTodoFromAPI = api.fetchTodoWithID();
-    todoLists = api.fetchAllTodo();
-    print('jkjkkk ${todoLists}');
-
-    // todoLists.then(
-    //   // Provider.of<Todos>(context, listen: false).addTodo(
-    //   //   Todo(id: 'asddd', userId: 1, title: 'final fantasy', completed: false),
-    //   // )
-    //   // Provider.of<Todos>(context, listen: false).defaultTodo();
-    // );
-    // api.todoPostRequest();
-
-    // todoLists.add(
-    //     Todo(id: 'asddd', userId: 1, title: 'final fantasy', completed: false),
-    //     Todo(id: 'asddd', userId: 1, title: 'fifa', completed: false),
-    // Todo(id: 'asddd', userId: 1, title: 'ronaldo', completed: false)
-    // );
+    Provider.of<Todos>(context, listen: false).fetchAllTodos();
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     if (_isInit) {
-      // Provider.of<Todos>(context, listen: false).defaultTodo();
-      // Provider.of<Todos>(context, listen: false).addTodo(
-      //   Todo(id: 'asddd', userId: 1, title: 'final fantasy', completed: false),
-      // );
-
       // Provider.of<Todos>(context).addTodo(todoLists);
-
+      // Provider.of<Todos>(context).fetchAllTodos().then((_) =>
+      //   // todosData = Provider.of<Todos>(context)
+      //   a = "ayam"
+      // );
+      // a = "rimauxxxx";
+      // Provider.of<Todos>(context).fetchAllTodos();
+      // api.fetchAllTodo().then((_) =>
+      //     // todosData = Provider.of<Todos>(context)
+      //     a = "ayam");
     }
     _isInit = false;
 
@@ -60,32 +41,20 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final todosData = Provider.of<Todos>(context).items;
-    print('todosData = ${todosData.length}');
+    todosData = Provider.of<Todos>(context);
+
+    print('todosData items = ${todosData.items}');
+
+    // print('todosData count = ${todosData.length}');
     return Scaffold(
       body: Center(
-        // child: ListView.builder(
-        //   itemCount: todosData.length,
-        //   itemBuilder: (ctx, i) => Text(todosData[i].title),
-        // ),
-        child: FutureBuilder<List<Todo>>(
-          future: todoLists,
-          builder: (context, snapshot) {
-            print('snapshot ${snapshot.data}');
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (ctx, i) => ListTile(
-                        title: Text(snapshot.data[i].title),
-                      ));
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
+        child: todosData.items.length > 0
+            ? ListView.builder(
+                itemCount: todosData.items.length,
+                itemBuilder: (ctx, i) => ListTile(
+                      title: Text(todosData.items[i].title),
+                    ))
+            : CircularProgressIndicator(),
       ),
     );
   }
