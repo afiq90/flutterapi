@@ -3,7 +3,6 @@ import 'api/api.dart';
 import 'models/todo.dart';
 import 'widgets/todo_screen.dart';
 import 'widgets/main_screen.dart';
-
 import 'package:provider/provider.dart';
 import 'providers/todos.dart';
 
@@ -20,55 +19,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MyHomePage(title: 'Flutter Demo Home Page'),
+        home: MainScreen(),
+        routes: {AddNewTodoScreen.routeName: (ctx) => AddNewTodoScreen()},
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
 
-  final String title;
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+  
 
-class _MyHomePageState extends State<MyHomePage> {
-  NetworkApi api = NetworkApi();
-  Future<Todo> firstTodoFromAPI;
-
-  void initState() {
-    super.initState();
-    // Future.delayed(Duration.zero).then(
-    //   Provider.of<Todos>(context).fetchTodos;
-    // )
-    // firstTodoFromAPI = api.fetchTodo();
-    // firstTodoFromAPI = api.fetchTodoWithID();
-    // api.fetchAllTodo();
-
-    // api.todoPostRequest();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Todo List',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Todo List'),
-        ),
-        // body: TodoForms(),
-        body: MainScreen(),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {print('button pressed');},
-        ),
-      ),
-    );
-  }
-}

@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import '../api/api.dart';
 import '../models/todo.dart';
 
-
-class TodoForms extends StatelessWidget {
+class AddNewTodoScreen extends StatelessWidget {
   TextEditingController _titleController = TextEditingController();
   NetworkApi api = NetworkApi();
+  static const routeName = "AddNewTodo";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Create New Todo List'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,6 +52,7 @@ class TodoForms extends StatelessWidget {
                     userId: 1001,
                     completed: true);
                 api.postToFirebase(newTodo);
+                Navigator.of(context).pop();
                 // print("title : ${_titleController.text}");
               },
             )

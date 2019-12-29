@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../api/api.dart';
-import '../models/todo.dart';
 import 'package:provider/provider.dart';
 import '../providers/todos.dart';
+import '../widgets/todo_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -12,12 +12,20 @@ class MainScreen extends StatefulWidget {
 //Get the API data properly from todos provider notifier
 class _MainScreenState extends State<MainScreen> {
   bool _isInit = true;
-  Todos todosData = Todos();
+  // Todos todosData = Todos();
   NetworkApi api = NetworkApi();
 
   void initState() {
     super.initState();
-    Provider.of<Todos>(context, listen: false).fetchAllTodos();
+    print('this is init state');
+    // Future.delayed(Duration.zero, () {
+    //   setState(() {
+    //     // Here you can write your code for open new view
+    //   });
+    //   Provider.of<Todos>(context, listen: true).fetchAllTodos();
+    // });
+
+    // print('onValue $onValue')
   }
 
   @override
@@ -33,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
       // api.fetchAllTodo().then((_) =>
       //     // todosData = Provider.of<Todos>(context)
       //     a = "ayam");
+      // Provider.of<Todos>(context, listen: true).fetchAllTodos();
     }
     _isInit = false;
 
@@ -41,20 +50,77 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    todosData = Provider.of<Todos>(context);
+    Provider.of<Todos>(context, listen: true).fetchAllTodos();
+    final todosData = Provider.of<Todos>(context);
+    final todosDataItems = Provider.of<Todos>(context).items.toList();
 
-    print('todosData items = ${todosData.items}');
+    // print('todosData items = ${todosData.items}');
 
-    // print('todosData count = ${todosData.length}');
+    Future<void> _refreshTodos(BuildContext context) async {
+      await Provider.of<Todos>(context).fetchAllTodos();
+    }
+
+    // print('todosData count = ${todosData.items.length}');
+    var center = Center(
+      child: todosDataItems.isEmpty
+          ? Text('No Todo List Available')
+          : ListView.builder(
+              itemCount: todosDataItems.length,
+              itemBuilder: (ctx, index) => todosDataItems.length > 0
+                  ? ListTile(title: Text(todosDataItems[index].title))
+                  : CircularProgressIndicator()),
+    );
     return Scaffold(
-      body: Center(
-        child: todosData.items.length > 0
-            ? ListView.builder(
-                itemCount: todosData.items.length,
-                itemBuilder: (ctx, i) => ListTile(
-                      title: Text(todosData.items[i].title),
-                    ))
-            : CircularProgressIndicator(),
+      appBar: AppBar(
+        title: Text('Todo List'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddNewTodoScreen.routeName).then(
+              (_) => Provider.of<Todos>(context, listen: true).fetchAllTodos());
+        },
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => _refreshTodos(context),
+        // child: Center(
+        //   child: todosDataItems.isEmpty
+        //       ? Text('No Todo List Available')
+        //       : ListView.builder(
+        //           itemCount: todosDataItems.length,
+        //           itemBuilder: (ctx, index) => todosDataItems.length > 0
+        //               ? ListTile(title: Text(todosDataItems[index].title))
+        //               : CircularProgressIndicator()),
+        // ),
+        child: Center(child: Consumer<Todos>(builder: (ctx, todoData, child) {
+          // print('object nulllll?');
+          if (todoData.items.isNotEmpty) {
+            return ListView.builder(
+                itemCount: todoData.items.length,
+                itemBuilder: (ctx, index) =>
+                    ListTile(title: Text(todoData.items[index].title)));
+          } else {
+            return Text('Empty todo');
+          }
+
+          //  return Text(todoData.items.isEmpty.toString());
+        })
+            // child:  Consumer<Todos>(builder: (ctx, todoData, child) => ListView.builder(
+            //         itemCount: todoData.items.length,
+            //         itemBuilder: (ctx, index) =>
+            //              ListTile(title: Text(todoData.items.length.toString()))
+            //             ),)
+            // itemBuilder: (ctx, index) => todoData.items.length > 0
+            //     ? ListTile(title: Text(todoData.items[index].title))
+            //     : CircularProgressIndicator()),)
+            ),
+        // child: Center(
+        //   child: Consumer<Todos>(builder: (ctx, todoData, child) => ListView.builder(
+        //           itemCount: todoData.items.length,
+        //           itemBuilder: (ctx, index) => todoData.items.length > 0
+        //               ? ListTile(title: Text(todoData.items[index].title))
+        //               : CircularProgressIndicator()),)
+        // ),
       ),
     );
   }

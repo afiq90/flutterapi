@@ -26,24 +26,19 @@ class NetworkApi {
   // }
 
   Future<Map<String, dynamic>> fetchAllTodo() async {
-    Todos newTodo = Todos();
-    // List<Todo> todo = [];
     var extractedData;
 
     try {
       final response =
           await http.get('https://flutterapi-5afde.firebaseio.com/todos.json');
       //transform data
-       extractedData = jsonDecode(response.body) as Map<String, dynamic>;
-      
+      extractedData = jsonDecode(response.body) as Map<String, dynamic>;
     } catch (error) {
       print('fetch error \($error)');
     }
-    
-    return extractedData;
 
+    return extractedData;
   }
-  
 
   Future<void> fetchTodoWithID() async {
     Todo firstTodo;
@@ -58,7 +53,6 @@ class NetworkApi {
       print('fetch error \($error)');
     }
 
-    // return firstTodo;
   }
 
   Future<void> todoPostRequest() async {
