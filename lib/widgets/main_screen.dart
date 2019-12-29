@@ -18,12 +18,12 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     print('this is init state');
-    // Future.delayed(Duration.zero, () {
-    //   setState(() {
-    //     // Here you can write your code for open new view
-    //   });
-    //   Provider.of<Todos>(context, listen: true).fetchAllTodos();
-    // });
+    Future.delayed(Duration.zero, () {
+      //   setState(() {
+      //     // Here you can write your code for open new view
+      //   });
+      // Provider.of<Todos>(context, listen: true).fetchAllTodos();
+    });
 
     // print('onValue $onValue')
   }
@@ -61,15 +61,7 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     // print('todosData count = ${todosData.items.length}');
-    var center = Center(
-      child: todosDataItems.isEmpty
-          ? Text('No Todo List Available')
-          : ListView.builder(
-              itemCount: todosDataItems.length,
-              itemBuilder: (ctx, index) => todosDataItems.length > 0
-                  ? ListTile(title: Text(todosDataItems[index].title))
-                  : CircularProgressIndicator()),
-    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo List'),
@@ -103,25 +95,34 @@ class _MainScreenState extends State<MainScreen> {
             return Text('Empty todo');
           }
 
-          //  return Text(todoData.items.isEmpty.toString());
-        })
-            // child:  Consumer<Todos>(builder: (ctx, todoData, child) => ListView.builder(
-            //         itemCount: todoData.items.length,
-            //         itemBuilder: (ctx, index) =>
-            //              ListTile(title: Text(todoData.items.length.toString()))
-            //             ),)
-            // itemBuilder: (ctx, index) => todoData.items.length > 0
-            //     ? ListTile(title: Text(todoData.items[index].title))
-            //     : CircularProgressIndicator()),)
-            ),
-        // child: Center(
-        //   child: Consumer<Todos>(builder: (ctx, todoData, child) => ListView.builder(
-        //           itemCount: todoData.items.length,
-        //           itemBuilder: (ctx, index) => todoData.items.length > 0
-        //               ? ListTile(title: Text(todoData.items[index].title))
-        //               : CircularProgressIndicator()),)
-        // ),
+        })),
       ),
+
+      //TODO: try use futurebuilder
+      // body: FutureBuilder(
+      //   future: Provider.of<Todos>(context, listen: true).fetchAllTodos(),
+      //   builder: (ctx, dataSnapshot) {
+      //     print('dataSnapshot $dataSnapshot');
+      //     if (dataSnapshot.connectionState == ConnectionState.waiting) {
+      //       return Center(child: CircularProgressIndicator());
+      //     } else {
+      //       if (dataSnapshot.error != null) {
+      //         // ...
+      //         // Do error handling stuff
+      //         return Center(
+      //           child: Text('An error occurred!'),
+      //         );
+      //       } else {
+      //         return Consumer<Todos>(
+      //           builder: (ctx, todosData, child) => ListView.builder(
+      //                 itemCount: todosData.items.length,
+      //                 itemBuilder: (ctx, i) => Text(todosData.items[i].title),
+      //               ),
+      //         );
+      //       }
+      //     }
+      //   }
+      // ),
     );
   }
 }
