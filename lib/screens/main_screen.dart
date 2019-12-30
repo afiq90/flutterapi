@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../api/api.dart';
 import 'package:provider/provider.dart';
 import '../providers/todos.dart';
-import '../widgets/todo_screen.dart';
+import '../screens/add_todo_screen.dart';
+import '../screens/update_todo_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -122,8 +123,7 @@ class _MainScreenState extends State<MainScreen> {
                         },
                       ),
                       onTap: () {
-                        //Go to to update screen
-                        print('this is index $index');
+                        Navigator.of(context).pushNamed(UpdateTodoScreen.routeName, arguments: index);
                       },
                     ));
           } else {

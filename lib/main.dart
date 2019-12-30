@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'api/api.dart';
-import 'models/todo.dart';
-import 'widgets/todo_screen.dart';
-import 'widgets/main_screen.dart';
+import 'screens/add_todo_screen.dart';
+import 'screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/todos.dart';
+import 'screens/update_todo_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,18 +14,17 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (ctx) => Todos(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Flutter API CRUD',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: MainScreen(),
-        routes: {AddNewTodoScreen.routeName: (ctx) => AddNewTodoScreen()},
+        // home: UpdateTodoScreen(),
+        routes: {
+          AddNewTodoScreen.routeName: (ctx) => AddNewTodoScreen(),
+          UpdateTodoScreen.routeName: (ctx) => UpdateTodoScreen(),
+        },
       ),
     );
   }
 }
-
-
-
-  
-

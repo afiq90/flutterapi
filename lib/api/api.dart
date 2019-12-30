@@ -1,6 +1,4 @@
-import 'package:flutterapi/providers/todos.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../models/todo.dart';
@@ -40,20 +38,22 @@ class NetworkApi {
     return extractedData;
   }
 
-  Future<void> fetchTodoWithID() async {
-    Todo firstTodo;
+  // Future<Map<String, dynamic>> fetchTodoWithID(String id) async {
+  //   var fetchedData; 
 
-    try {
-      final response = await http.get(
-          'https://flutterapi-5afde.firebaseio.com/todos/-Lx7B0XNecXYUFmIO8JK.json');
-      firstTodo = Todo.decodeJson(jsonDecode(response.body));
-      // firstUser = User(userId: decodedData['userId'], id: decodedData['id'], title: decodedData['title'], completed: decodedData['completed']);
-      print(firstTodo.title);
-    } catch (error) {
-      print('fetch error \($error)');
-    }
+  //   try {
+  //     final response = await http.get(
+  //         'https://flutterapi-5afde.firebaseio.com/todos/$id.json');
+  //       fetchedData = jsonDecode(response.body) as Map<String, dynamic>;
+  //     // firstTodo = .decodeJson(jsonDecode(response.body));
+  //     // firstUser = User(userId: decodedData['userId'], id: decodedData['id'], title: decodedData['title'], completed: decodedData['completed']);
+  //     // print('ayamas: ${response.body}');
+  //   } catch (error) {
+  //     print('fetch error \($error)');
+  //   }
 
-  }
+  //  return fetchedData;
+  // }
 
   Future<void> deleteTodoWithID(String id) async{
     try {

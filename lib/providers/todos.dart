@@ -22,12 +22,12 @@ class Todos with ChangeNotifier {
     notifyListeners();
   }
 
-  Future fetchAllTodos() async {
+  Future<void> fetchAllTodos() async {
     final extractedData = await api.fetchAllTodo();
-    print('allData ${extractedData}');
+    // print('allData ${extractedData}');
 
     if (extractedData != null) {
-     print('allData count ${extractedData.length}');
+    //  print('allData count ${extractedData.length}');
       _items.clear();
       extractedData.forEach((todoID, todoData) {
         addTodo(Todo(
@@ -42,7 +42,28 @@ class Todos with ChangeNotifier {
     }
   }
 
+  // Future<void> fetchSingleTodoWithId(String id) async {
+  //   final selectedTodo = await api.fetchTodoWithID(id);
+  //   print('selectedTodo $selectedTodo');
+
+  //   // if (extractedData != null) {
+  //   // //  print('allData count ${extractedData.length}');
+  //   //   _items.clear();
+  //   //   extractedData.forEach((todoID, todoData) {
+  //       addTodo(Todo(
+  //           id: id,
+  //           userId: selectedTodo['userId'],
+  //           title: selectedTodo['title'],
+  //           completed: selectedTodo['completed']));
+  //   //   });
+  //   // } else {
+  //   //   _items = [];
+  //   notifyListeners();
+  //   // }
+  // }
+
   Future<void> deleteTodoWithID(String id) async {
     api.deleteTodoWithID(id);
+    notifyListeners();
   }
 }

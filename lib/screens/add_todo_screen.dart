@@ -28,14 +28,10 @@ class AddNewTodoScreen extends StatelessWidget {
             ),
             TextField(
               autofocus: false,
-              decoration: InputDecoration(hintText: "Body"),
+              decoration: InputDecoration(hintText: "Completed"),
             ),
             SizedBox(
               height: 20,
-            ),
-            TextField(
-              autofocus: false,
-              decoration: InputDecoration(hintText: "User ID"),
             ),
             SizedBox(
               height: 20,
