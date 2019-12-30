@@ -41,4 +41,8 @@ class Todos with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> deleteTodoWithID(String id) async {
+    api.deleteTodoWithID(id);
+  }
 }

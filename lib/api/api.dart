@@ -55,24 +55,14 @@ class NetworkApi {
 
   }
 
-  Future<void> todoPostRequest() async {
-    final String url = 'https://jsonplaceholder.typicode.com/posts';
-    Map<String, String> headers = {
-      "Content-type": "application/json; charset=UTF-8"
-    };
-    String json =
-        '{"title" : "Hambidong", "body": "this is body text", "userIdx": "2"}';
-
+  Future<void> deleteTodoWithID(String id) async{
     try {
-      http.Response response =
-          await http.post(url, headers: headers, body: json);
-
-      int statusCode = response.statusCode;
-
-      String body = response.body;
-      print("post body: \($body)");
+      final response = await http.delete(
+          'https://flutterapi-5afde.firebaseio.com/todos/$id.json');
+      // firstUser = User(userId: decodedData['userId'], id: decodedData['id'], title: decodedData['title'], completed: decodedData['completed']);
+      print('delete todo with id $id');
     } catch (error) {
-      print('POST error \($error)');
+      print('fetch error \($error)');
     }
   }
 

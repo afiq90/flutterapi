@@ -18,6 +18,7 @@ class AddNewTodoScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              autocorrect: false,
               autofocus: true,
               decoration: InputDecoration(hintText: "Title"),
               controller: _titleController,

@@ -72,6 +72,29 @@ class _MainScreenState extends State<MainScreen> {
           Navigator.of(context).pushNamed(AddNewTodoScreen.routeName).then(
               (_) => Provider.of<Todos>(context, listen: true).fetchAllTodos());
         },
+
+        //  Consumer<Todos>(builder: (ctx, todoData, child) {
+        //   if (todoData.items.isEmpty) {
+        //     return Visibility(
+        //         visible: true,
+        //         child: FloatingActionButton(
+        //           child: Icon(Icons.add),
+        //           onPressed: () {
+        //             Navigator.of(context)
+        //                 .pushNamed(AddNewTodoScreen.routeName)
+        //                 .then((_) => Provider.of<Todos>(context, listen: true)
+        //                     .fetchAllTodos());
+        //           },
+        //         ));
+        //   } else {
+        //     return Visibility(
+        //         visible: false,
+        //         child: FloatingActionButton(
+        //           child: Icon(Icons.add),
+        //           onPressed: () {},
+        //         ));
+        //   }
+        // }
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshTodos(context),
@@ -89,12 +112,23 @@ class _MainScreenState extends State<MainScreen> {
           if (todoData.items.isNotEmpty) {
             return ListView.builder(
                 itemCount: todoData.items.length,
-                itemBuilder: (ctx, index) =>
-                    ListTile(title: Text(todoData.items[index].title)));
+                itemBuilder: (ctx, index) => ListTile(
+                      leading: Text(todoData.items[index].title),
+                      trailing: GestureDetector(
+                        child: Icon(Icons.delete, color: Colors.red,),
+                        onTap: () {
+                          // print('index $index will get deleted');
+                          todoData.deleteTodoWithID(todoData.items[index].id);
+                        },
+                      ),
+                      onTap: () {
+                        //Go to to update screen
+                        print('this is index $index');
+                      },
+                    ));
           } else {
             return Text('Empty todo');
           }
-
         })),
       ),
 
