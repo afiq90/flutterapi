@@ -17,6 +17,7 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
 
   NetworkApi api = NetworkApi();
   var _isInit = true;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -66,6 +67,31 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
           builder: (ctx, todoData, child) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              // Form(
+              //   key: _formKey,
+              //   child: TextFormField(
+              //     decoration: const InputDecoration(
+              //       icon: Icon(Icons.person),
+              //       hintText: 'What do people call you?',
+              //       labelText: 'Name *',
+              //     ),
+              //     onSaved: (String value) {
+              //       // This optional block of code can be used to run
+              //       // code when the user saves the form.
+              //     },
+              //     validator: (String value) {
+              //       // return value.contains('@') ? 'Do not use the @ char.' : 'null';
+              //       if (value.isEmpty) {
+              //         return 'Please enter some text';
+              //       }
+              //       return null;
+              //     },
+              //   ),
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+              //TODO: Change textfield to TextFormField and do some kind of validation
               TextField(
                 autocorrect: false,
                 autofocus: true,
@@ -90,22 +116,28 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
               //TODO: Maybe can change this one to drop down button or toggle button
               ToggleButtons(
                 children: <Widget>[
-                  Icon(Icons.check, color: Colors.green,),
-                  Icon(Icons.highlight_off, color: Colors.red,),
+                  Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  ),
+                  Icon(
+                    Icons.highlight_off,
+                    color: Colors.red,
+                  ),
                 ],
                 onPressed: (int index) {
                   setState(() {
                     // isSelected[index] = !isSelected[index];
                   });
                 },
-                isSelected: [true,false],
+                isSelected: [true, false],
               ),
-              // TextField(
-              //   autocorrect: false,
-              //   autofocus: false,
-              //   controller: TextEditingController(
-              //       text: todoData.items[todoIdIndex].completed.toString()),
-              // ),
+              TextField(
+                autocorrect: false,
+                autofocus: false,
+                controller: TextEditingController(
+                    text: todoData.items[todoIdIndex].completed.toString()),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -125,6 +157,11 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
                   style: TextStyle(color: Colors.black87),
                 ),
                 onPressed: () {
+                  // if (_formKey.currentState.validate()) {
+                  //   // If the form is valid, display a Snackbar.
+                  //   Scaffold.of(context).showSnackBar(
+                  //       SnackBar(content: Text('Processing Data')));
+                  // }
                   Todo newTodo = Todo(
                       title: _titleController.text,
                       // id: 1,
