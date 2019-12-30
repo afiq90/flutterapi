@@ -82,9 +82,31 @@ class NetworkApi {
       int statusCode = response.statusCode;
 
       String body = response.body;
-      print("POST body: \($body)");
+      print("Create POST body: \($body)");
     } catch (error) {
-      print('POST error ${error.toString}');
+      print('Create POST error ${error.toString}');
+    }
+  }
+
+  Future<void> updateTodo(String id, Todo updatedTodo) async {
+    final String url = 'https://flutterapi-5afde.firebaseio.com/todos/$id.json';
+
+    var newTodo = json.encode({
+      // "userId": todo.userId,
+      // "id": todo.id,
+      "title": updatedTodo.title,
+      "completed": true
+    });
+
+    try {
+      http.Response response = await http.patch(url, body: newTodo);
+
+      int statusCode = response.statusCode;
+
+      String body = response.body;
+      print("Update POST body: \($body)");
+    } catch (error) {
+      print('Update POST error ${error.toString}');
     }
   }
 }

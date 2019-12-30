@@ -12,16 +12,29 @@ class UpdateTodoScreen extends StatefulWidget {
 }
 
 class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
-  TextEditingController _titleController =
-      TextEditingController(text: 'kambing');
+  // TextEditingController _titleController = TextEditingController(text: 'lol');
+  TextEditingController _titleController = TextEditingController();
 
   NetworkApi api = NetworkApi();
   var _isInit = true;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    // _titleController.addListener(setTextFieldValue);
+  }
+
+  // void setTextFieldValue() {
+  // //   _titleController.text = _titleController.text;
+  // }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    // _titleController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,7 +51,11 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
   @override
   Widget build(BuildContext context) {
     final todoIdIndex = ModalRoute.of(context).settings.arguments as int;
-      print('todoIdIndex = $todoIdIndex');
+    // final TextEditingController _titleController = TextEditingController(text: Provider.of<Todos>(context, listen: false).items[todoIdIndex].title);
+    _titleController.text =
+        Provider.of<Todos>(context, listen: false).items[todoIdIndex].title;
+
+    print('todoIdIndex = $todoIdIndex');
 
     return Scaffold(
       appBar: AppBar(
@@ -51,19 +68,44 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
             children: <Widget>[
               TextField(
                 autocorrect: false,
-                autofocus: false,
-                controller:
-                    TextEditingController(text: todoData.items[todoIdIndex].title),
+                autofocus: true,
+                // decoration: InputDecoration(
+                //     hintText: todoData.items[todoIdIndex].title),
+                controller: _titleController,
+                // controller: TextEditingController(
+                //     text: todoData.items[todoIdIndex].title),
+                // onChanged: (text) {
+                //   print("title text field: $text");
+                // },
+                onTap: () {
+                  _titleController.clear();
+                },
+                onSubmitted: (text) {
+                  print('onsubmit $text');
+                },
               ),
               SizedBox(
                 height: 20,
               ),
-              TextField(
-                autocorrect: false,
-                autofocus: false,
-                controller: TextEditingController(
-                    text: todoData.items[todoIdIndex].completed.toString()),
+              //TODO: Maybe can change this one to drop down button or toggle button
+              ToggleButtons(
+                children: <Widget>[
+                  Icon(Icons.check, color: Colors.green,),
+                  Icon(Icons.highlight_off, color: Colors.red,),
+                ],
+                onPressed: (int index) {
+                  setState(() {
+                    // isSelected[index] = !isSelected[index];
+                  });
+                },
+                isSelected: [true,false],
               ),
+              // TextField(
+              //   autocorrect: false,
+              //   autofocus: false,
+              //   controller: TextEditingController(
+              //       text: todoData.items[todoIdIndex].completed.toString()),
+              // ),
               SizedBox(
                 height: 20,
               ),
@@ -86,11 +128,11 @@ class _UpdateTodoScreenState extends State<UpdateTodoScreen> {
                   Todo newTodo = Todo(
                       title: _titleController.text,
                       // id: 1,
-                      userId: 1001,
+                      // userId: 1001,
                       completed: true);
-                  api.postToFirebase(newTodo);
-                  Navigator.of(context).pop();
                   // print("title : ${_titleController.text}");
+                  api.updateTodo(todoData.items[todoIdIndex].id, newTodo);
+                  Navigator.of(context).pop();
                 },
               )
             ],
